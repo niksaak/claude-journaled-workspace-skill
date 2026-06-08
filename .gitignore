@@ -1,0 +1,6 @@
+# Editor / OS scratch — never part of the distributable skill.
+.obsidian/
+.vscode/
+.idea/
+.DS_Store
+*.swp

@@ -1,0 +1,3 @@
+# Keeps the empty feature/ tier tracked in git.
+# Per-branch working journals appear here as feature/<branch-slug>/,
+# and are removed once distilled into a toplevel/ entry at merge.
