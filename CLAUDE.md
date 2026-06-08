@@ -10,7 +10,7 @@ See `README.md` for what it is and how to install it elsewhere.
   (`CONVENTION.md` always-on core, `SKILL.md` procedures, `reference/`
   worked examples).
 - `JOURNAL/` — this repo dogfoods its own skill; the journal lives here.
-- `README.md` — install guide. `program.md` — the original design brief.
+- `README.md` — install guide.
 
 ## This repo follows its own journaling workflow
 
