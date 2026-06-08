@@ -18,8 +18,12 @@ in-flight work — the things a diff and the commit log don't capture.
 - **`JOURNAL/toplevel/`** — the persistent journal. It lives in the
   trunk and survives across every branch. Numbered entries
   (`00_<slug>.md`, `01_<slug>.md`, …), one per merged feature (plus
-  any work done directly on the trunk). This is the long-term,
-  high-level-but-detailed history of the project.
+  any work done directly on the trunk). Each entry carries an
+  `> Origin:` marker under its heading — `trunk-direct` or
+  `branch <name>` — recording where it came from; consecutive related
+  trunk-direct work folds into the last such entry instead of adding a
+  new one (see below). This is the long-term, high-level-but-detailed
+  history of the project.
 - **`JOURNAL/feature/<branch-slug>/`** — the working journal for the
   current branch. Same numbered-entry format, but scoped to one
   branch and numbered *locally* so concurrent branches never fight
@@ -36,6 +40,18 @@ write to `JOURNAL/feature/<branch-slug>/`. If you're on the trunk
 (commonly `main` / `master` / `trunk`), or the project isn't using
 branches — or isn't a git repo at all — write straight to
 `JOURNAL/toplevel/`.
+
+**Trunk-direct work folds into the last entry when it fits.** Work
+done straight on the trunk (a hotfix, a quick pre-deadline feature)
+doesn't always deserve its own number. Before adding a new
+`toplevel/` entry, read the highest-numbered one's `> Origin:` marker:
+if it's `trunk-direct` **and** the new work is *related*, update that
+entry in place — fold the new work into its narrative so it still
+reads as one coherent account — instead of creating a new file. Start
+a fresh entry (marked `> Origin: trunk-direct`) only when the last
+entry is a branch distillation, the new work is clearly unrelated, or
+`toplevel/` is empty. Branch distillations always get their own fresh
+entry. Full procedure in the skill.
 
 ## Consult — before non-trivial work
 
@@ -71,8 +87,13 @@ comment.
 - **File:** `<NN>_<descriptive-slug>.md` in the directory chosen
   above. `<NN>` is the next zero-padded index after the highest
   existing entry *in that directory*. The slug is kebab-case, short
-  and specific (`retry-backoff-on-429`, not `fixes`).
+  and specific (`retry-backoff-on-429`, not `fixes`). *(Exception:
+  related trunk-direct work updates the last `toplevel/` entry instead
+  — see "Where does a new entry go?" above.)*
 - **Heading:** `# NN — <topic>` on one line.
+- **Origin marker (`toplevel/` entries only):** the next line is
+  `> Origin: trunk-direct` or `> Origin: branch <name>`, recording the
+  entry's provenance. Feature-branch entries omit it.
 - **Opening:** one or two sentences on what the entry covers and how
   it relates to prior entries (cite them by number — "follow-up to
   4", "implements the plan in 7").

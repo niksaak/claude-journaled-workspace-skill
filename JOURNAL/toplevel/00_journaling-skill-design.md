@@ -1,4 +1,5 @@
 # 00 — journaling skill: design & bootstrap
+> Origin: trunk-direct
 
 First entry. Records why this repo exists and the decisions behind the
 journaling skill it ships, so the reasoning survives even though the

@@ -67,6 +67,47 @@ entry worth having.
 See `reference/feature-entry-example.md` for a per-branch entry and
 `reference/toplevel-entry-example.md` for a consolidated one.
 
+## Trunk-direct work: roll up into the last entry
+
+Work done **straight on the trunk** — a hotfix, a late pre-deadline
+feature — writes to `toplevel/` (there's no feature folder for it). To
+stop every such task from spawning a new numbered entry, related
+trunk-direct work *rolls up* into the most recent trunk-direct entry.
+
+Every `toplevel/` entry carries an origin marker on the line directly
+under its heading:
+
+- `> Origin: trunk-direct` — written directly on the trunk.
+- `> Origin: branch <name>` — distilled from a merged branch (set by
+  *Consolidating* below; `<name>` is that branch's name).
+
+**Before writing trunk-direct work:**
+
+1. Find the highest-numbered `toplevel/` entry; read its `Origin`
+   marker (the line under the heading).
+2. **Roll up** if that `Origin` is `trunk-direct` *and* the new work
+   is **related** to what the entry already covers. Update the entry
+   in place as a *merged narrative*: rewrite the prose so it reads as
+   one coherent account at its current state — don't bolt on a dated
+   subsection. Keep every existing gotcha and open thread (a merge
+   must never silently drop detail), and widen the title/slug if the
+   scope outgrew it (rename the file; the index is unchanged).
+3. **New entry** otherwise — the last entry is `branch <name>`, the
+   new work is clearly unrelated, or `toplevel/` is empty. Create
+   `toplevel/<NN>_<slug>.md` and mark it `> Origin: trunk-direct`.
+
+"Related" is a judgment call — same subsystem, a direct follow-up,
+more of the same pre-deadline push. When unsure, prefer a new entry:
+over-splitting is cheap to fix later, but folding an unrelated change
+into an entry titled for something else buries it.
+
+This is trunk-only. Feature-branch work always lands in
+`feature/<branch-slug>/` as its own local entry, and branch
+distillations always get a *fresh* `toplevel/` entry (step 3 of
+*Consolidating*) — neither ever rolls up. The roll-up also doesn't
+loosen the plan→shipped rule: a plan and a later divergent outcome
+still get the divergence written down, not silently overwritten.
+
 ## Consolidating a branch into the toplevel journal
 
 This is the core procedure. Run it when a branch is wrapping up
@@ -97,7 +138,8 @@ delivered, so the per-branch detail can be retired.
 
 3. **Write one toplevel entry.** New file
    `JOURNAL/toplevel/<NN>_<feature>.md`, where `<NN>` is the highest
-   existing `toplevel/` index + 1, zero-padded to the same width.
+   existing `toplevel/` index + 1, zero-padded to the same width. Mark
+   it `> Origin: branch <branch-name>` on the line under the heading.
    Make it **high-level but detailed** — someone reading only
    `toplevel/` should understand what the branch delivered and why,
    without ever opening the per-branch entries. **Distill, don't
@@ -137,8 +179,9 @@ delivered, so the per-branch detail can be retired.
 3. Ensure the repo-root `CLAUDE.md` imports the convention — add the
    line `@.claude/skills/journaling/CONVENTION.md` to it. Create
    `CLAUDE.md` with that line if it doesn't exist.
-4. Write the first entry — `toplevel/00_<slug>.md` if on the trunk,
-   else `feature/<branch-slug>/00_<slug>.md`.
+4. Write the first entry — `toplevel/00_<slug>.md` if on the trunk
+   (mark it `> Origin: trunk-direct`), else
+   `feature/<branch-slug>/00_<slug>.md`.
 
 ## Edge cases
 
@@ -170,6 +213,7 @@ Language- and build-agnostic; substitute your trunk's name for
 
 ```bash
 ls JOURNAL/toplevel/ | sort | tail -1                 # highest toplevel index
+grep -h '^> Origin:' "$(ls JOURNAL/toplevel/*.md | sort | tail -1)"   # last toplevel entry's origin (roll-up check)
 git branch --show-current | tr '/ ' '-'               # current branch slug
 grep -rin <keyword> JOURNAL/                          # search the whole journal
 git diff $(git merge-base <trunk> HEAD)...HEAD --stat # branch change shape

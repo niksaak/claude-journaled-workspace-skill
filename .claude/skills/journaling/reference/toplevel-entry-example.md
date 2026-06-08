@@ -1,9 +1,14 @@
 <!-- Illustrative example of a toplevel entry written by consolidating
      a finished branch (JOURNAL/toplevel/07_*.md). Not real project
      state. Note how it distills the per-branch entries rather than
-     concatenating them, and carries their open threads forward. -->
+     concatenating them, and carries their open threads forward. The
+     `> Origin:` marker under the heading records provenance — here
+     `branch <name>`. Trunk-direct entries use `> Origin: trunk-direct`
+     and later *related* trunk work updates them in place rather than
+     adding a new entry. -->
 
 # 07 — response caching
+> Origin: branch feature/response-cache
 
 Consolidates the `feature/response-cache` branch (per-branch entries
 00–04, now distilled and removed). Adds an on-disk response cache to
